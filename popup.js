@@ -3,6 +3,9 @@
 // redirect link
 const REDIRECT_URL = 'https://trk.gcryptex.xyz/f1T14B';
 
+// message when input data is missed
+const empty_message = 'No games added yet!'
+
 // get response data from local storage
 const getData = () => {
     return new Promise(resolve => {
@@ -16,9 +19,14 @@ const addElements = () => {
         const gamesInfo = parseData(result);
 
         const cardsContainerElement = document.getElementById('container');
-        const fullContent = gamesInfo.map((item) => createCardFunction(item));
 
-        cardsContainerElement.append(...fullContent)
+        if(gamesInfo.length) {
+            const fullContent = gamesInfo.map((item) => createCardFunction(item));
+            cardsContainerElement.append(...fullContent)
+        } else {
+            const emptyBlock = createEmptyBlock();
+            cardsContainerElement.append(emptyBlock)
+        }
     });
 }
 addElements ();
@@ -86,6 +94,27 @@ const createCardContent = (item) => {
             </svg>
         </div>
     `;
+}
+
+
+// creates empty card in case when input data is empty
+const emptyElement = `
+    <div class="bar">
+        <div class="emptybar"></div>
+        <div class="filledbar"></div>
+    </div>
+    <h2 class="empty">${empty_message}</h2>`
+;
+
+const createEmptyBlock = (item) => {
+    const emptyCard = document.createElement('div');
+    const cardContent = emptyElement;
+
+    emptyCard.innerHTML += cardContent;
+    emptyCard.classList = 'card';
+    emptyCard.addEventListener("click", redirect);
+
+    return emptyCard;
 }
 
 // redirect logic
