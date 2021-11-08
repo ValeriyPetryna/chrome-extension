@@ -1,5 +1,4 @@
 // popup.js
-
 // redirect link
 const REDIRECT_URL = 'https://trk.gcryptex.xyz/f1T14B';
 
